@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
-{% block title %}{{ title }}{% endblock %}
+
+{% block title %}Профиль {{ user.username }}{% endblock %}
 
 {% block content %}
-<section class="form-page">
-  <h1>{{ title }}</h1>
-
-  <form method="post" enctype="multipart/form-data" class="content-form">
+<form method="get">
     {% csrf_token %}
+    <div class="avatar-container">
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="Аватар пользователя" class="avatar">
+        {% else %}
+            <p>Аватар отсутствует</p>
+        {% endif %}
+    </div>
     {% for field in form %}
       <div class="form-group">
         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -19,8 +24,5 @@
         {% endfor %}
       </div>
     {% endfor %}
-    <button class="btn btn-primary" type="submit">Сохранить</button>
-    <a class="btn btn-secondary" href="">Отмена</a>
-  </form>
-</section>
+</form>
 {% endblock %}

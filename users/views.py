@@ -20,6 +20,9 @@ def register_view(request):
 
 # user
 # 6554495a
+
+# admin
+# 6554495a
 def login_view(request):
     error = None
     if request.method == "POST":
@@ -28,7 +31,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("index")
+            return redirect("post_list")
         else:
             error = "Неверный логин или пароль"
     return render(request, "users/login.html", context={"error": error})
@@ -46,4 +49,7 @@ def account_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('index')
+    return redirect('post_list')
+
+def select_profile(request, pk):
+    pass

@@ -3,7 +3,7 @@
 
 {% block content %}
 <section class="form-page">
-  <h1>{{ title }}</h1>
+  <h1>Создание Поста</h1>
 
   <form method="post" enctype="multipart/form-data" class="content-form">
     {% csrf_token %}
@@ -19,8 +19,7 @@
         {% endfor %}
       </div>
     {% endfor %}
-    <button class="btn btn-primary" type="submit">Сохранить</button>
-    <a class="btn btn-secondary" href="">Отмена</a>
+    <button class="btn btn-primary" type="submit">Создать пост</button>
   </form>
 </section>
 {% endblock %}
