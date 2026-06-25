@@ -1,7 +1,19 @@
-from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout, get_user_model
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
+
+from blog.forms import PostForm
+from blog.models import Post
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
 
+# DmitriiProkofiev
+# 6554495a
+
+# user
+# 6554495a
+
+# admin
+# 6554495a
 
 def register_view(request):
     if request.method == "POST":
@@ -15,14 +27,6 @@ def register_view(request):
     context = {'form': form}
     return render(request, 'users/register.html', context=context)
 
-# DmitriiProkofiev
-# 6554495a
-
-# user
-# 6554495a
-
-# admin
-# 6554495a
 def login_view(request):
     error = None
     if request.method == "POST":
@@ -35,7 +39,6 @@ def login_view(request):
         else:
             error = "Неверный логин или пароль"
     return render(request, "users/login.html", context={"error": error})
-
 
 def account_view(request):
     if request.method == "POST":
@@ -51,5 +54,12 @@ def logout_view(request):
     logout(request)
     return redirect('post_list')
 
-def select_profile(request, pk):
-    pass
+def profile_view(request, pk):
+    User = get_user_model()
+    user = get_object_or_404(User,id=pk)
+    posts = Post.objects.filter(author=user)
+    context = {
+        'profile': user,
+        'posts': posts,
+    }
+    return render(request, 'users/profile.html', context)

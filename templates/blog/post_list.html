@@ -76,14 +76,16 @@
                           <span>{{ post.created_at|date:'d.m.Y H:i' }}</span>
                         </div>
 
-                        <h2><a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a></h2>
+                        <h2>
+                            <a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a>
+                        </h2>
 
                         <div class="PostText">
                           <p>{{ post.text|truncatewords:50 }}</p>
                         </div>
 
                         <div class="post-meta">
-                            <span>Автор: <a href="{% url 'blog:user_posts' post.author.pk %}">{{ post.author.username }}</a></span>
+                            <span>Автор: <a href="{% url 'users:profile' post.author.id %}">{{ post.author.username }}</a></span>
                             <div class="avatar-post">
                              {% if post.author.avatar %}
                                <img src="{{ post.author.avatar.url }}" alt="Аватар пользователя" class="avatar-post">
@@ -93,7 +95,7 @@
                         </div>
 
                         <div class="category-wrapper">
-                          <span class="label">Категория:</span>
+                            <span class="label">Категория:</span>
                             {% if post.category %}
                                 <span class="category-item">{{ post.category.name }}</span>
                             {% else %}

@@ -35,10 +35,7 @@ def post_list(request):
     фильтрация по автору, категории и тегу
     сортировка по дате, заголовку и количеству лайков
     """
-    # select_related(поля ForeignKey)
-    # кзуауеср_кудфеув(поля ManyToMany)
     posts = Post.objects.select_related('author', 'category').prefetch_related('tags', 'likes')
-    # получаем из форм ввода HTML в GET запросе
 
     query = request.GET.get('q', '').strip()
     author_id = request.GET.get('author', '')
@@ -53,7 +50,7 @@ def post_list(request):
     if category_id:
         posts = posts.filter(category_id=category_id)
     if tag_id:
-        posts = posts.filter(tag__id=tag_id)
+        posts = posts.filter(tags__id=tag_id)
 
     # annotate добавляет к каждому посту вычисленное поле likes_count
     # по нему можно отсортировать список
@@ -66,7 +63,7 @@ def post_list(request):
         '-likes': '-likes_count',
         'likes': 'likes_count'
     }
-    posts = posts.order_by(allowed_sort_fields.get(sort), '-created_at')
+    posts = posts.order_by(allowed_sort_fields.get(sort, '-created_at'))
     context = {
         'posts': posts,
         'query': query,

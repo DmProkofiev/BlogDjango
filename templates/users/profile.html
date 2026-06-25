@@ -5,24 +5,22 @@
 {% block content %}
 <form method="get">
     {% csrf_token %}
-    <div class="avatar-container">
-        {% if user.avatar %}
-            <img src="{{ user.avatar.url }}" alt="Аватар пользователя" class="avatar">
+    <div class="profile">
+        <div class="avatar-container">
+        {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}" alt="Аватар пользователя" class="avatar">
         {% else %}
             <p>Аватар отсутствует</p>
         {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">Имя: {{ profile.username }} </label>
+            <label for="{{ field.id_for_label }}">Город: {{ profile.city }} </label>
+            <label for="{{ field.id_for_label }}">Почта: {{ profile.email }} </label>
+            <label for="{{ field.id_for_label }}">Телефон: {{ profile.phone }} </label>
+        </div>
+
     </div>
-    {% for field in form %}
-      <div class="form-group">
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {{ field }}
-        {% if field.help_text %}
-          <small class="help-text">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <div class="error">{{ error }}</div>
-        {% endfor %}
-      </div>
-    {% endfor %}
+
 </form>
 {% endblock %}
